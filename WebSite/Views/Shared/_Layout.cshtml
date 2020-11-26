@@ -1,0 +1,105 @@
+﻿<!DOCTYPE html>
+<html lang="ar">
+<head>
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-VZZ0PVRHPN"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        gtag('config', 'G-VZZ0PVRHPN');
+    </script>
+    <!-- END Global site tag (gtag.js) - Google Analytics -->
+
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Matira</title>
+    @Html.Partial("_Favicons")
+
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+
+    <script src="https://kit.fontawesome.com/03ee67cb09.js" crossorigin="anonymous"></script>
+</head>
+<body >
+    <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="/home/index">
+                <img src="~/img/logo.png"/>
+            </a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarMatira" aria-controls="navbarMatira" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarMatira">
+                <ul class="navbar-nav ">
+                    <li class="nav-item active">
+                        <span class="sr-only">(current)</span>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link scrollInside" href="/home/index#services">Servicios</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link scrollInside" href="/home/index#contact">Contacto</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link scrollInside" href="/empleo/index">Trabajá con nosotros</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    @RenderBody()
+  
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+
+    <footer class="py-3 bg-light">
+        <div class="container">
+            <p class="text-center">Copyright &copy; Matira 2020</p>
+        </div>
+    </footer>
+</body>
+</html>
+
+<script>
+/**
+ * Esto se agrega porque al navegar dentro de la página, el anchor queda 
+ * debajo de la fixed top navbar, hay una solución con css dando un padding del 
+ * alto de la navbar y un margin negativo del mismo valor, pero no me funcionó
+ * Check a href for an anchor. If exists, and in document, scroll to it.
+ * If href argument ommited, assumes context (this) is HTML Element,
+ * which will be the case when invoked by jQuery after an event
+ */
+    function scroll_if_anchor(href) {        
+        href = typeof (href) == "string" ? href : $(this).attr("href");
+        
+        // You could easily calculate this dynamically if you prefer
+        var fromTop = 50;
+
+        // If our Href points to a valid, non-empty anchor, and is on the same page (e.g. #foo)
+        // Legacy jQuery and IE7 may have issues: http://stackoverflow.com/q/1593174
+        if (href.indexOf("#") == 0) {
+            var $target = $(href);
+
+            // Older browser without pushState might flicker here, as they momentarily
+            // jump to the wrong position (IE < 10)
+            if ($target.length) {                
+                $('html, body').animate({ scrollTop: $target.offset().top - fromTop });
+                if (history && "pushState" in history) {
+                    history.pushState({}, document.title, window.location.pathname + href);
+                    return false;
+                }
+            }
+        }
+    }
+
+    // When our page loads, check to see if it contains and anchor
+    scroll_if_anchor(window.location.hash);
+
+    // Intercept all anchor clicks
+    $("body").on("click", ".scrollInside", scroll_if_anchor);
+</script>
